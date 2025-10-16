@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chromatic Bar — Mocktail & Grill Bar</title>
+    <meta name="description" content="Chromatic Bar — Mocktail bar & grill dengan reservasi online, menu lengkap, dan keranjang belanja." />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="icon" href="public/images/chromatic-logo.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a class="brand" href="#" data-nav="home" aria-label="Chromatic Bar Home">
+          <img class="brand-logo" src="public/images/chromatic-fizz.jpg" alt="Logo Chromatic Bar" />
+          <span class="brand-name">Chromatic Bar</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navigasi utama">
+          <a href="#" class="nav-link" data-nav="home">Beranda</a>
+          <a href="#" class="nav-link" data-nav="reserve">Reservasi</a>
+          <a href="#" class="nav-link" data-nav="menu">Menu</a>
+        </nav>
+
+        <button class="cart-toggle" id="cartToggle" aria-label="Buka keranjang" aria-haspopup="dialog" aria-expanded="false">
+          Keranjang
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="home" class="hero visible">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <h1 class="title text-balance">Selamat Datang di <span class="txt-silver">Chromatic Bar</span></h1>
+        <p class="subtitle">Bar mocktail & grill bernuansa gelap elegan. Nikmati signature mocktail, kopi, dan hidangan hangat dari grill kami.</p>
+        <div class="cta">
+          <a href="#" class="btn btn-primary" data-nav="reserve">Reservasi Sekarang</a>
+          <a href="#" class="btn btn-secondary" data-nav="menu">Lihat Menu</a>
+        </div>
+      </div>
+    </main>
+
+    <section id="reserve" class="section hidden">
+      <div class="container">
+        <h2 class="section-title">Reservasi Meja</h2>
+        <form id="reserveForm" class="form">
+          <div class="grid">
+            <div class="field">
+              <label>Nama</label>
+              <input name="name" type="text" required placeholder="Nama lengkap" />
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input name="email" type="email" required placeholder="nama@email.com" />
+            </div>
+            <div class="field">
+              <label>No. Telepon</label>
+              <input name="phone" type="tel" required placeholder="08xxxxxxxxxx" />
+            </div>
+            <div class="field">
+              <label>Tanggal</label>
+              <input name="date" type="date" required />
+            </div>
+            <div class="field">
+              <label>Waktu</label>
+              <input name="time" type="time" required />
+            </div>
+            <div class="field">
+              <label>Jumlah Tamu</label>
+              <input name="guests" type="number" min="1" max="20" value="2" required />
+            </div>
+          </div>
+          <div class="field">
+            <label>Catatan</label>
+            <textarea name="notes" rows="3" placeholder="Preferensi tempat, acara, dll."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Kirim Reservasi</button>
+            <p id="reserveMessage" class="message muted" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="reservations">
+          <h3>Reservasi Terkini</h3>
+          <ul id="reservationList" class="reservation-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="section hidden">
+      <div class="container">
+        <h2 class="section-title">Menu Kami</h2>
+
+        <div class="filters">
+          <button class="chip active" data-filter="all" aria-selected="true">Semua</button>
+          <button class="chip" data-filter="mocktail" aria-selected="false">Mocktail</button>
+          <button class="chip" data-filter="coffee" aria-selected="false">Kopi & Teh</button>
+          <button class="chip" data-filter="main" aria-selected="false">Makanan</button>
+          <button class="chip" data-filter="snack" aria-selected="false">Camilan</button>
+          <button class="chip" data-filter="dessert" aria-selected="false">Dessert</button>
+        </div>
+
+        <div id="menuGrid" class="menu-grid"></div>
+      </div>
+    </section>
+
+    <aside id="cart" class="cart" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="cart-header">
+        <h3>Keranjang</h3>
+        <button class="icon-btn" id="cartClose" aria-label="Tutup keranjang">Tutup</button>
+      </div>
+      <div id="cartItems" class="cart-items" aria-live="polite"></div>
+      <div class="cart-summary">
+        <div class="row"><span>Subtotal</span><span id="subtotal">Rp0</span></div>
+        <div class="row"><span>Biaya Layanan (10%)</span><span id="serviceFee">Rp0</span></div>
+        <div class="row total"><strong>Total</strong><strong id="total">Rp0</strong></div>
+        <div class="cart-actions">
+          <button id="checkoutBtn" class="btn btn-primary">Checkout</button>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="brand-foot">
+          <img class="brand-logo" src="public/images/chromatic-fizz.jpg" alt="Logo Chromatic Bar" />
+          <div>
+            <strong>Chromatic Bar</strong><br />
+            <span class="muted">Mocktail & Grill • Est. 2025</span>
+          </div>
+        </div>
+        <small class="muted">© 2025 Chromatic Bar. Semua hak dilindungi.</small>
+      </div>
+    </footer>
+
+    <template id="menuCardTpl">
+      <article class="card card-menu">
+        <figure class="thumb-wrap">
+          <img class="thumb" alt="" />
+          <figcaption class="badge-silver">Bar Favorite</figcaption>
+        </figure>
+        <div class="card-body">
+          <h3 class="item-name"></h3>
+          <p class="item-desc muted"></p>
+          <div class="price-row">
+            <span class="price"></span>
+            <div class="qty">
+              <button class="qty-btn" data-act="dec" aria-label="Kurangi">−</button>
+              <input class="qty-input" type="number" min="1" value="1" aria-label="Jumlah" />
+              <button class="qty-btn" data-act="inc" aria-label="Tambah">+</button>
+            </div>
+          </div>
+          <button class="btn btn-silver add-btn">Tambah ke Keranjang</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
